@@ -1,6 +1,6 @@
 # WebApp
 
-Before you begin, ensure you have the following installed:
+Before you begin, ensure you have the following installed:  
 
 - [Node.js](https://nodejs.org/) (which includes npm, the Node.js package manager)
 
