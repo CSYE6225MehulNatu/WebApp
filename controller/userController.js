@@ -1,0 +1,85 @@
+const userService = require("../services/UserService");
+
+
+const createUser = async (req, resp, next) => {
+    const email = req.body["username"];
+    const firstName = req.body["first_name"];
+    const lastName = req.body["last_name"];
+    const password = req.body["password"];
+    try {
+        const isPresent = await userService.doesUserExist(email);
+
+        if (isPresent) {
+            resp.status(400).send();
+            return;
+        }
+
+        userService.createUser(firstName, lastName, email, password).then(result => {
+            resp.status(201).send(filterFields(result.toJSON()));
+        });
+    } catch (err) {
+        console.log("Error while creatiung a new user " + err);
+        resp.status(500).send();
+    }
+}
+
+const updateUser = async (req, resp, next) => {
+    //get Email from the token
+    const email = req.decipheredEmail;
+    console.log("Deciphere emaiol: " + email);
+    try {
+        const isPresent = await userService.doesUserExist(email);
+
+        if (!isPresent) {
+            resp.status(400).send();
+            return;
+        }
+
+        const firstName = req.body["first_name"];
+        const lastName = req.body["last_name"];
+        const password = req.body["password"];
+
+        userService.updateUser(firstName, lastName, email, password).then(result => {
+            resp.status(204).send();
+        })
+
+    } catch (err) {
+        console.log("Error while updatying user " + err);
+        resp.status(500).send();
+    }
+}
+
+const getUser = async (req, resp, next) => {
+    const email = req.decipheredEmail;
+    const result = await userService.doesUserExistIfSoGetUser(email);
+    if (result[0]) {
+        resp.status(200).send(filterFields(result[1].toJSON()));
+        return;
+    } else {
+        resp.status(400).send();
+        return;
+    }
+}
+
+
+function filterFields(data) {
+    const fieldsToRemove = ["password"]
+    const keysToRename = {"email" : "username"}
+    const newData = {};
+  
+    for (const key in data) {
+      if (!fieldsToRemove.includes(key)) {
+        const newKey = keysToRename[key] || key;
+        newData[newKey] = data[key];
+      }
+    }
+  
+    return newData;
+  }
+
+
+module.exports = {
+    createUser, 
+    updateUser,
+    getUser
+}
