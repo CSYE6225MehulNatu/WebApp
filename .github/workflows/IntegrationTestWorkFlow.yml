@@ -25,7 +25,7 @@ jobs:
             - name: Set up MySQL
               run: |
                 sudo /etc/init.d/mysql start
-                mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+                mysql -e 'CREATE DATABASE ${{ env.DATABASE_NAME }};' -u${{ secrets.DATABASE_USER }} -p${{ secrets.DATABASE_PASSWORD }}
 
             - uses: actions/checkout@v3
             - name: Use Node.js ${{ matrix.node-version }}
