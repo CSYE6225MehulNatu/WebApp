@@ -17,7 +17,7 @@ const createUserApiValidator = async (req, res, next) => {
 
 
 const updateUserApiValidator = async (req, res, next) => {
-    const requiredFields = ["first_name", "last_name", "password", "username"];
+    const requiredFields = ["first_name", "last_name", "password"];
     if (genericValidator(requiredFields, [], req) != true || hasQueryParam(req)) {
         res.status(400).send();
         return;

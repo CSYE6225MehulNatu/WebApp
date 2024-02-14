@@ -5,31 +5,39 @@ const {getUserModel} = require("../models/userModel.js");
 //const chai = require('chai'); // Add chai for assertion
 //const expect = chai.expect;   // Use chai's expect syntax
 
-afterAll(async() => {
+
+beforeAll(async() => {
+  // Clears the database and adds some testing data.
+  // Jest will wait for this promise to resolve before running tests.
+  await sync();
+});
+
+afterAll(async () => {
 
   const createduserName = "LOL@gmail.com";
   const userModel = getUserModel();
-  const existingUser = userModel.findOne({
+  const existingUser = await userModel.findOne({
             where: { email: createduserName }
   });
 
   if (existingUser) {
-    userModel.destroy({
+    await userModel.destroy({
       where: { email: createduserName }});
   }
 
-
   return new Promise(resolve => {
-      server.close(resolve)
-  })
+    server.close(resolve)
+  });
+ 
 })
 
 
-describe("Creating a User and fetching the user", () => {
+
+describe("Integration test for User APIs", () => {
 
   describe("POST /v1/user", () => {
     test("saving a user response should be status 200", async() => {
-      await sync();
+      
       const response = await request(app)
         .post("/v1/user")
         .send({
@@ -42,7 +50,7 @@ describe("Creating a User and fetching the user", () => {
     });
   });
 
-  describe("GET v1/user/self", () => {
+  describe("Put v1/user/self", () => {
     test("fetching a user response should be status 200", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2w=";
 
@@ -60,4 +68,42 @@ describe("Creating a User and fetching the user", () => {
 
     });
   });
+
+  describe("update v1/user/self", () => {
+    test("Updating a user, response should be status 204", async() => {
+      const token = "TE9MQGdtYWlsLmNvbTpsb2w=";
+
+      const response = await request(app)
+      .put("/v1/user/self")
+      .set("Authorization", "Basic " + token)
+      .send({
+        first_name: "Peter",
+        last_name: "Parker",
+        password: "loll"
+      });
+
+      expect(response.statusCode).toBe(204);
+    });
+  });
+
+  describe("get updated v1/user/self", () => {
+    test("fetching a user response should be status 200", async() => {
+      const token = "TE9MQGdtYWlsLmNvbTpsb2xs";
+      const response = await request(app)
+      .get("/v1/user/self")
+      .set("Authorization", "Basic " + token);
+      
+      expect(response.statusCode).toBe(200);
+      expect(response.body.username).toBe("LOL@gmail.com");
+      expect(response.body.firstname).toBe("Peter");
+      expect(response.body.lastname).toBe("Parker");
+      expect(response.body.account_created).toBeDefined();
+      expect(response.body.account_updated).toBeDefined();
+      expect(response.body.id).toBeDefined();
+    });
+  });
+
+  
 });
+
+
