@@ -4,8 +4,8 @@ require('dotenv').config();
 
 const db = new Sequelize(
   "csye_6225",
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  "root",
+  "root",
    {
      host: 'localhost',
      dialect: 'mysql'
@@ -13,7 +13,7 @@ const db = new Sequelize(
  );
 
 
-function sync() {
+async function sync() {
   //db = dbTemp;
   console.log("here I am " + db);
   user.sync(db);
