@@ -1,18 +1,17 @@
 const request = require('supertest');
 const {app, server} = require('../Server.js');
-//const {sync} = require("../DbConfig.js");
+const {sync, db} = require("../DbConfig.js");
 const {getUserModel} = require("../models/userModel.js");
-const { db } = require('../DbConfig.js');
 //const chai = require('chai'); // Add chai for assertion
 //const expect = chai.expect;   // Use chai's expect syntax
 
-/** 
+
 beforeAll(async() => {
   // Clears the database and adds some testing data.
   // Jest will wait for this promise to resolve before running tests.
+  await sync();
   
-});
-*/
+})
 
 afterAll(async () => {
 
@@ -50,11 +49,13 @@ describe("Integration test for User APIs", () => {
           password: "lol",
           username: "LOL@gmail.com"
         });
+      
       expect(response.statusCode).toBe(201);
+      //expect(201).toBe(201);
     });
   });
 
-  describe("Put v1/user/self", () => {
+  describe("Get v1/user/self", () => {
     test("fetching a user response should be status 200", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2w=";
 
@@ -90,7 +91,7 @@ describe("Integration test for User APIs", () => {
     });
   });
 
-  describe("get updated v1/user/self", () => {
+  describe("GET updated v1/user/self", () => {
     test("fetching a user response should be status 200", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2xs";
       const response = await request(app)

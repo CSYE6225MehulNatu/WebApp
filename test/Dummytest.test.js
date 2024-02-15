@@ -12,6 +12,6 @@ test('adds 1 + 2 to equal 3', () => {
   });
   
   // Test case 3: Multiplication
-  it('multiplies 3 * 4 to equal 12', () => {
+  test('multiplies 3 * 4 to equal 12', () => {
     expect(3 * 4).toBe(12);
   });
