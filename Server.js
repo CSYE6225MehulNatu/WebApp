@@ -1,13 +1,15 @@
 const express = require("express");
 const {db, sync} = require("./DbConfig"); 
 const userRouter  = require("./routes/UserRoutes");
+const utilRouter = require("./routes/UtilRoutes");
 
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/v1/user/", userRouter)
+app.use("/v1/user/", userRouter);
+app.use("/", utilRouter);
 
 const port = process.env.PORT || 3001;
 

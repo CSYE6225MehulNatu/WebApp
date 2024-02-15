@@ -1,14 +1,11 @@
 const request = require('supertest');
 const {app, server} = require('../Server.js');
 const {UserModel, db, sync} = require("../DbConfig.js");
-//const chai = require('chai'); // Add chai for assertion
-//const expect = chai.expect;   // Use chai's expect syntax
+
 
 
 
 beforeAll(async() => {
-  // Clears the database and adds some testing data.
-  // Jest will wait for this promise to resolve before running tests.
   await sync();
   
 })
@@ -110,3 +107,15 @@ describe("Integration test for User APIs", () => {
 });
 
 
+describe("Integration Util APIs", () => {
+
+  describe("Get /healthz", () => {
+    test("Fetching db status, it should be status 200", async() => {
+      const response = await request(app)
+        .get("/healthz")
+        .send();
+      
+      expect(response.statusCode).toBe(200);
+    });
+  });
+});
