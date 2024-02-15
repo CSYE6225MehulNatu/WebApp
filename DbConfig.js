@@ -3,9 +3,9 @@ const { User } = require("./models/userModel");
 require('dotenv').config();
 
 const db = new Sequelize(
-  "csye_6225",
-  "root",
-  "root",
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
    {
      host: 'localhost',
      dialect: 'mysql'
