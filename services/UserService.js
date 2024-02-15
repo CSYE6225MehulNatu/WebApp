@@ -1,13 +1,12 @@
-const {getUserModel} = require("../models/userModel")
+const {UserModel} = require("../DbConfig")
 
 
 async function createUser(firstName, lastName, emailToBeSaved, password) {
-    const User = getUserModel();
     
     const userExist = await doesUserExistIfSoGetUser(emailToBeSaved);
     if (!userExist[0]) {
-        console.log("In here2 + " + User);
-        const newUser = await User.create({"firstname" : firstName, "lastname" : lastName, "email" : emailToBeSaved, 
+        //console.log("In here2 + " + User);
+        const newUser = await UserModel.create({"firstname" : firstName, "lastname" : lastName, "email" : emailToBeSaved, 
         "password" : password
         });
         //console.log(newUser.safeStringifyJson)
@@ -39,8 +38,8 @@ async function getUser(email, password) {
 }
 
 async function doesUserExistIfSoGetUser(emailToCheck) {
-    const User = getUserModel();
-    const result = await User.findOne({where: {email: emailToCheck}});
+    
+    const result = await UserModel.findOne({where: {email: emailToCheck}});
     if (result === null) {
         console.log("In here");
         return [false,  null]; 
@@ -50,8 +49,8 @@ async function doesUserExistIfSoGetUser(emailToCheck) {
 }
 
 async function doesUserExistIfSoGetUserMetaData(emailToCheck) {
-    const User = getUserModel();
-    const result = await User.findOne({where: {email: emailToCheck}, attributes : {exclude: ["id", "password"]}});
+    
+    const result = await UserModel.findOne({where: {email: emailToCheck}, attributes : {exclude: ["id", "password"]}});
     if (result === null) {
         console.log("In here");
         return [false,  null]; 
@@ -61,8 +60,8 @@ async function doesUserExistIfSoGetUserMetaData(emailToCheck) {
 }
 
 async function doesUserExist(emailToCheck) {
-    const User = getUserModel();
-    const result = await User.findOne({where: {email: emailToCheck}});
+
+    const result = await UserModel.findOne({where: {email: emailToCheck}});
     if (result === null) {
         return false; 
     } else {

@@ -1,36 +1,25 @@
-//const db = require("../DbConfig");
-const Sequelize = require("sequelize");
 const bcrypt = require('bcrypt');
-
-let User = null;
-
-function getUserModel() {
-  return User;
-}
-
-function setUserModel(userModel) {
-  User = userModel;
-}
-
 
 //import DataTypes from 'sequelize';
 
-function sync(db) {
+
   
-  const userModel = db.define('user', {
+const User = (db, DataTypes) => {
+  
+  const userM = db.define('user', {
 
     id: {
-      type: Sequelize.DataTypes.UUID,
+      type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
     },
     email: { 
-      type: Sequelize.DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
     password:  { 
-      type: Sequelize.DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       set(value) {
           const salt = bcrypt.genSaltSync(10);
@@ -39,11 +28,11 @@ function sync(db) {
       }
     },
     firstname:  { 
-      type: Sequelize.DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     lastname:  { 
-      type: Sequelize.DataTypes.STRING, 
+      type: DataTypes.STRING, 
       allowNull: false
     },
   },
@@ -54,13 +43,13 @@ function sync(db) {
       createdAt: "account_created",
       updatedAt: "account_updated"
   }
-);
- 
-  userModel.sync({ alter: true });
-  setUserModel(userModel);
+  );
+  return userM;
 }
 
+//await userModel.sync({ alter: true });
+  
+
 module.exports = {
-  sync,
-  getUserModel
+  User
 }

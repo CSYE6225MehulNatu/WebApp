@@ -1,7 +1,7 @@
 //const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const atob = require("atob");
-const {getUserModel} = require("../models/userModel");
+const {UserModel} = require("../DbConfig");
 //const decodedString = buffer.from(encodedString, 'base64').toString();
 
 const basicAuth = async (req, res, next) => {
@@ -12,7 +12,6 @@ const basicAuth = async (req, res, next) => {
 
 const authenticate = async (req, res, next) => {
     try {
-        const User = getUserModel();
 
         const encodedString = req.headers.authorization;
         console.log(req.headers.authorization);
@@ -21,7 +20,7 @@ const authenticate = async (req, res, next) => {
     
         const [username, password] = decodedCredentials.split(":");
 
-        const fetchedUser = await User.findOne({where : { email: username }});
+        const fetchedUser = await UserModel.findOne({where : { email: username }});
 
         if (!fetchedUser) {
             console.log("In here")

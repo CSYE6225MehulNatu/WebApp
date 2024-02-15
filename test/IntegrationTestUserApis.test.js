@@ -1,28 +1,28 @@
 const request = require('supertest');
 const {app, server} = require('../Server.js');
-const {sync, db} = require("../DbConfig.js");
-const {getUserModel} = require("../models/userModel.js");
+const {UserModel, db, sync} = require("../DbConfig.js");
 //const chai = require('chai'); // Add chai for assertion
 //const expect = chai.expect;   // Use chai's expect syntax
 
+/*
 
 beforeAll(async() => {
   // Clears the database and adds some testing data.
   // Jest will wait for this promise to resolve before running tests.
-  await sync();
+  //await sync();
   
 })
+*/
 
 afterAll(async () => {
 
   const createduserName = "LOL@gmail.com";
-  const userModel = getUserModel();
-  const existingUser = await userModel.findOne({
+  const existingUser = await UserModel.findOne({
             where: { email: createduserName }
   });
 
   if (existingUser) {
-    await userModel.destroy({
+    await UserModel.destroy({
       where: { email: createduserName }});
   }
   
