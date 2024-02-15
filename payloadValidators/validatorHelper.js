@@ -36,6 +36,17 @@ function hasBody(req) {
     return false;
 }
 
+const genericNoBodyNoParamValidator = async (req, res, next) => {
+    if (hasBody(req) || hasQueryParam(req)) {
+        res.status(400).send();
+        return;
+    }
+    next();
+}
+
+
+
+
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 
@@ -48,5 +59,6 @@ module.exports = {
     genericValidator,
     hasQueryParam,
     hasBody,
-    isEmail
+    isEmail,
+    genericNoBodyNoParamValidator
 };
