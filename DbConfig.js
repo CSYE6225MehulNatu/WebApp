@@ -3,7 +3,7 @@ const user = require("./models/userModel");
 require('dotenv').config();
 
 const db = new Sequelize(
-  process.env.DB_NAME,
+  "csye_6225",
   process.env.DB_USER,
   process.env.DB_PASSWORD,
    {
