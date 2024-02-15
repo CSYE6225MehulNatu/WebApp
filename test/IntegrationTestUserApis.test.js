@@ -4,15 +4,15 @@ const {UserModel, db, sync} = require("../DbConfig.js");
 //const chai = require('chai'); // Add chai for assertion
 //const expect = chai.expect;   // Use chai's expect syntax
 
-/*
+
 
 beforeAll(async() => {
   // Clears the database and adds some testing data.
   // Jest will wait for this promise to resolve before running tests.
-  //await sync();
+  await sync();
   
 })
-*/
+
 
 afterAll(async () => {
 
