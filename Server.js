@@ -12,9 +12,9 @@ app.use("/v1/user/", userRouter)
 const port = process.env.PORT || 3001;
 
 
-const server = app.listen(port, () => {
-    sync()
-    console.log("Listening on port  3001....")
+const server = app.listen(port, async() => {
+    await sync();
+    console.log("Listening on port  3001....");
 }); 
 
 
