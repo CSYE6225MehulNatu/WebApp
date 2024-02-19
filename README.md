@@ -33,7 +33,7 @@ Before running the application, you may need to configure environment variables 
 ## Running the Application
 
 To start the Node.js application, run the following command:
-
+  
 ```bash
 npm start
 
