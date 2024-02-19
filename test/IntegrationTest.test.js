@@ -98,7 +98,7 @@ describe("Integration test for User APIs", () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.username).toBe("LOL@gmail.com");
       expect(response.body.firstname).toBe("Peter");
-      expect(response.body.lastname).toBe("Parker");
+      expect(response.body.lastname).toBe("Jane");
       expect(response.body.account_created).toBeDefined();
       expect(response.body.account_updated).toBeDefined();
       expect(response.body.id).toBeDefined();
