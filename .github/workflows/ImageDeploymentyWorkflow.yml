@@ -1,0 +1,59 @@
+name: Image Deployment
+
+on:
+  workflow_run:
+    workflows: ["Integration Test"]
+    types:
+      - completed
+
+jobs:
+  Image_Creation:
+    if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup envirornment variables for webapp
+        run: |
+          touch .env
+          echo DB_NAME=${{ env.DB_DATABASE }} >> .env
+          echo DB_USER=${{ env.DB_USER }} >> .env
+          echo DB_PASSWORD= >> .env
+
+      - name: Setup envirornment variables for Packer
+        run: |
+            touch ./packer/variables.pkrvars.hcl
+            echo project_id=${{ secrets.PACKER_PROJECT_ID }} >> ./packer/variables.pkrvars.hcl
+            echo source_image_family=${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }} >> ./packer/variables.pkrvars.hcl
+            echo credentials_file_path=${{ secrets.PACKER_CREDENTIALS_FILE_PATH }} >> ./packer/variables.pkrvars.hcl
+            echo region=${{ secrets.PACKER_REGION }} >> ./packer/variables.pkrvars.hcl
+            echo zone=${{ secrets.PACKER_ZONE }} >> ./packer/variables.pkrvars.hcl
+            echo vpc_name=${{ secrets.PACKER_VPC_NAME }} >> ./packer/variables.pkrvars.hcl
+
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+            name: "./packer/credentials.json"
+            json: ${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}
+
+      - name: Create Zip File
+        uses: montudor/action-zip@v1
+        with:
+          args: -r ./packer/webapp.zip . -x 'packer' -x '.github'
+    
+      - name: Packer init
+        run: |
+            packer init ./packer/WebappService.pkr.hcl
+  
+      - name: Build AMI
+        run: |
+            packer build --var-file=./packer/variables.pkvars.hcl ./packer/WebappService.pkr.hcl
+
+     
