@@ -129,3 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+.zip
+packer/webapp.zip
+packer/credentials.json
+packer/variables.pkrvars.hcl
