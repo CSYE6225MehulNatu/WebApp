@@ -70,20 +70,20 @@ build {
   ]
 
   provisioner "file" {
-    source      = "webapp.zip"
+    source      = "./packer/webapp.zip"
     destination = "/tmp/webapp.zip"
   }
 
   provisioner "file" {
-    source      = "WebappService.service"
+    source      = "./packer/WebappService.service"
     destination = "/tmp/WebappService.service"
   }
   
 
   provisioner "shell" {
     scripts = [
-      "./installation.sh",
-      "./runner.sh"
+      "./packer/installation.sh",
+      "./packer/runner.sh"
     ]
     pause_before = "10s"
     timeout      = "10s"
