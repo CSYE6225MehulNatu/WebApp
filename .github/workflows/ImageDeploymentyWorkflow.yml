@@ -41,7 +41,7 @@ jobs:
             json: ${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}
 
       - name: Create Zip File
-        run: zip -r /packer/webapp.zip . -x "packer/*" ".github/*" "/packer/webapp.zip"
+        run: zip -r packer/webapp.zip . -x "packer/*" ".github/*" "/packer/webapp.zip"
     
       - name: Packer init
         run: |
