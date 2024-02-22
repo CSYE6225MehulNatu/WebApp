@@ -45,10 +45,10 @@ jobs:
     
       - name: Packer init
         run: |
-            packer init packer/WebappService.pkr.hcl
+            packer init packer/CustomImage.pkr.hcl
   
       - name: Build AMI
         run: |
-            packer build --var-file=packer/variables.pkvars.hcl packer/WebappService.pkr.hcl
+            packer build --var-file=packer/variables.pkvars.hcl packer/CustomImage.pkr.hcl
 
      
