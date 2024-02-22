@@ -25,7 +25,7 @@ jobs:
 
       - name: Setup envirornment variables for Packer
         run: |
-            touch ./packer/variables.pkrvars.hcl
+            touch ./packer/variables.pkvars.hcl
             echo project_id=${{ secrets.PACKER_PROJECT_ID }} >> ./packer/variables.pkrvars.hcl
             echo source_image_family=${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }} >> ./packer/variables.pkrvars.hcl
             echo credentials_file_path=${{ secrets.PACKER_CREDENTIALS_FILE_PATH }} >> ./packer/variables.pkrvars.hcl
