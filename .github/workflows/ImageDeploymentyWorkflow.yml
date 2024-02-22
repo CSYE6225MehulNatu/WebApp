@@ -26,12 +26,12 @@ jobs:
       - name: Setup envirornment variables for Packer
         run: |
             touch ./packer/variables.pkvars.hcl
-            echo project_id=${{ secrets.PACKER_PROJECT_ID }} >> ./packer/variables.pkrvars.hcl
-            echo source_image_family=${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }} >> ./packer/variables.pkrvars.hcl
-            echo credentials_file_path=${{ secrets.PACKER_CREDENTIALS_FILE_PATH }} >> ./packer/variables.pkrvars.hcl
-            echo region=${{ secrets.PACKER_REGION }} >> ./packer/variables.pkrvars.hcl
-            echo zone=${{ secrets.PACKER_ZONE }} >> ./packer/variables.pkrvars.hcl
-            echo vpc_name=${{ secrets.PACKER_VPC_NAME }} >> ./packer/variables.pkrvars.hcl
+            echo project_id=\"${{ secrets.PACKER_PROJECT_ID }}\" >> ./packer/variables.pkrvars.hcl
+            echo source_image_family=\"${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }}\" >> ./packer/variables.pkrvars.hcl
+            echo credentials_file_path=\"${{ secrets.PACKER_CREDENTIALS_FILE_PATH }}\" >> ./packer/variables.pkrvars.hcl
+            echo region=\"${{ secrets.PACKER_REGION }}\" >> ./packer/variables.pkrvars.hcl
+            echo zone=\"${{ secrets.PACKER_ZONE }}\" >> ./packer/variables.pkrvars.hcl
+            echo vpc_name=\"${{ secrets.PACKER_VPC_NAME }}\" >> ./packer/variables.pkrvars.hcl
       
       - name: Display File Contents
         run: |
@@ -53,6 +53,6 @@ jobs:
   
       - name: Build AMI
         run: |
-            packer build --var-file="packer/variables.pkvars.hcl" packer/CustomImage.pkr.hcl
+            packer build --var-file="./packer/variables.pkvars.hcl" packer/CustomImage.pkr.hcl
 
      
