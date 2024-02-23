@@ -24,9 +24,9 @@ jobs:
             echo project_id=\"${{ secrets.PACKER_PROJECT_ID }}\" >> ./packer/variables.pkvars.hcl
             echo source_image_family=\"${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }}\" >> ./packer/variables.pkvars.hcl
             echo credentials_file_path=\"${{ secrets.PACKER_CREDENTIALS_FILE_PATH }}\" >> ./packer/variables.pkvars.hcl
-            echo region=\"${{ secrets.PACKER_REGION }}\" >> ./packer/variables.pkvars.hcl
             echo zone=\"${{ secrets.PACKER_ZONE }}\" >> ./packer/variables.pkvars.hcl
-            echo vpc_name=\"${{ secrets.PACKER_VPC_NAME }}\" >> ./packer/variables.pkvars.hcl
+            echo webapp_image_family=\"${{ secrets.PACKER_WEBAPP_IMAGE_FAMILY }}\" >> ./packer/variables.pkvars.hcl
+            echo ssh_username=\"${{ secrets.PACKER_SSH_USERNAME }}\" >> ./packer/variables.pkvars.hcl
 
       - name: create-json
         id: create-json
