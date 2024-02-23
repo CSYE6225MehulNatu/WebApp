@@ -40,4 +40,4 @@ jobs:
         run: packer fmt --check packer/CustomImage.pkr.hcl
 
       - name: Packer validate
-        run: packer validate packer/CustomImage.pkr.hcl
+        run: packer validate --var-file="./packer/variables.pkvars.hcl" packer/CustomImage.pkr.hcl
