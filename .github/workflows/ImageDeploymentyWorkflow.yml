@@ -2,10 +2,56 @@ name: Image Deployment
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
+  
   
 
 jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: csye_6225
+      DB_USER: root
+      DB_PASSWORD: root
+  
+    strategy:
+      matrix:
+          node-version: [21.x]
+
+
+    steps:
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+      - name: Creating a database
+        run: |     
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Setup envirornment variables
+        run: |
+          touch .env
+          echo DB_NAME=${{ env.DB_DATABASE }} >> .env
+          echo DB_USER=${{ env.DB_USER }} >> .env
+          echo DB_PASSWORD=${{ env.DB_PASSWORD }} >> .env
+          
+      - run: npm ci
+      - run: npm install sequelize
+      - run: npm install mysql2
+      - run: npm run build --if-present
+      - run: npm test
+
+
   Image_Creation:
+    needs: integration-tests
+    if: success()
     runs-on: ubuntu-latest
     env:
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
