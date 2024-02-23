@@ -1,0 +1,43 @@
+name: Packer Format and Validate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  packer_format_and_validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup envirornment variables for Packer
+        run: |
+            touch ./packer/variables.pkvars.hcl
+            echo project_id=\"${{ secrets.PACKER_PROJECT_ID }}\" >> ./packer/variables.pkvars.hcl
+            echo source_image_family=\"${{ secrets.PACKER_SOURCE_IMAGE_FAMILY }}\" >> ./packer/variables.pkvars.hcl
+            echo credentials_file_path=\"${{ secrets.PACKER_CREDENTIALS_FILE_PATH }}\" >> ./packer/variables.pkvars.hcl
+            echo region=\"${{ secrets.PACKER_REGION }}\" >> ./packer/variables.pkvars.hcl
+            echo zone=\"${{ secrets.PACKER_ZONE }}\" >> ./packer/variables.pkvars.hcl
+            echo vpc_name=\"${{ secrets.PACKER_VPC_NAME }}\" >> ./packer/variables.pkvars.hcl
+
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+            name: "./packer/credentials.json"
+            json: ${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}
+
+
+      - name: Packer init
+        run: |
+            packer init packer/CustomImage.pkr.hcl
+
+      - name: Packer fmt check
+        run: packer fmt --check packer/CustomImage.pkr.hcl
+
+      - name: Packer validate
+        run: packer validate packer/CustomImage.pkr.hcl
