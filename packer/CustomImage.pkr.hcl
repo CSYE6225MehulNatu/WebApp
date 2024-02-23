@@ -41,6 +41,11 @@ variable "credentials_file_path" {
 
 variable "webapp_image_family" {
   type = string
+  default = "csye6225-webapp-image"
+}
+
+variable "ssh_username" {
+  type = string
 }
 
 source "googlecompute" "csye6225-webapp-custom-image" {
@@ -51,10 +56,10 @@ source "googlecompute" "csye6225-webapp-custom-image" {
   disk_type               = var.disk_type
   image_name              = "csye6225-webapp-image-{{timestamp}}"
   image_description       = "CSYE 6225 WebApp Image custom"
-  image_family            = "csye6225-webapp-image"
+  image_family            = var.webapp_image_family
   image_project_id        = var.project_id
   image_storage_locations = ["us"]
-  ssh_username            = "packer"
+  ssh_username            = var.ssh_username
   credentials_file        = var.credentials_file_path
 }
 
