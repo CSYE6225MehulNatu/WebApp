@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+    
+      - name: zip application
+        run: |
+            zip -r packer/webapp.zip . -x "packer/*" ".github/*" "/packer/webapp.zip"
       
       - name: Setup envirornment variables for Packer
         run: |
