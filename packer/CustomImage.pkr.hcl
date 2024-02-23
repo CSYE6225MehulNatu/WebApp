@@ -40,7 +40,7 @@ variable "credentials_file_path" {
 }
 
 variable "webapp_image_family" {
-  type = string
+  type    = string
   default = "csye6225-webapp-image"
 }
 
