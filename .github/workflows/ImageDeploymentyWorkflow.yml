@@ -78,10 +78,6 @@ jobs:
             echo region=\"${{ secrets.PACKER_REGION }}\" >> ./packer/variables.pkvars.hcl
             echo zone=\"${{ secrets.PACKER_ZONE }}\" >> ./packer/variables.pkvars.hcl
             echo vpc_name=\"${{ secrets.PACKER_VPC_NAME }}\" >> ./packer/variables.pkvars.hcl
-      
-      - name: Display File Contents
-        run: |
-            cat packer/variables.pkvars.hcl
 
       - name: create-json
         id: create-json
@@ -91,13 +87,14 @@ jobs:
             json: ${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}
 
       - name: Create Zip File
-        run: zip -r packer/webapp.zip . -x "packer/*" ".github/*" "/packer/webapp.zip"
+        run: | 
+            zip -r packer/webapp.zip . -x "packer/*" ".github/*" "/packer/webapp.zip"
     
       - name: Packer init
         run: |
             packer init packer/CustomImage.pkr.hcl
   
-      - name: Build AMI
+      - name: Build Image
         run: |
             packer build --var-file="./packer/variables.pkvars.hcl" packer/CustomImage.pkr.hcl
 

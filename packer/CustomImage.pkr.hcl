@@ -7,13 +7,6 @@ packer {
   }
 }
 
-/*
-variable "account_file" {
-  type    = string
-  default = env("GOOGLE_APPLICATION_CREDENTIALS")
-}
-*/
-
 variable "project_id" {
   type = string
 }
@@ -78,7 +71,7 @@ build {
     source      = "./packer/WebappService.service"
     destination = "/tmp/WebappService.service"
   }
-  
+
 
   provisioner "shell" {
     scripts = [
@@ -89,57 +82,3 @@ build {
     timeout      = "10s"
   }
 }
-
-
-
-
-
-
-/*
-
-builders = [
-  {
-    type = "googlecompute"
-    project_id = var.project_id
-    source_image_family = var.source_image_family
-    credentials_file = var.credentials_file_path
-    zone = var.zone
-    ssh_username = "packer"
-    image_name = "portfolio-web-app-{{timestamp}}"
-    image_description = "Web server for portfolio web app."
-    image_storage_locations = ["us-central1"]
-    service_account_email = "packer-sa@gcp_project.iam.gserviceaccount.com"
-  }
-]
-
-provisioners = [
-  {
-    type = "shell"
-    inline = ["mkdir -p /var/www/html"]
-  },
-  {
-    type = "file"
-    source = "public/"
-    destination = "/var/www/html"
-  },
-  {
-    type = "shell"
-    script = "deploy.sh"
-  }
-]
-
-post-processors = [
-  {
-    type = "vagrant"
-  },
-  {
-    type = "compress"
-    output = "portfolio-web-app-vagrant.tar.gz"
-  },
-  {
-    type = "googlecompute-export"
-    paths = ["gs://gcs_bucket/portfolio-web-app-vagrant.tar.gz"]
-    keep_input_artifact = true
-  }
-]
-*/
