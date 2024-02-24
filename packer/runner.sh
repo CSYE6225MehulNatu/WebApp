@@ -11,6 +11,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable WebappService
 sudo systemctl start WebappService
 sudo systemctl status WebappService
+sudo systemctl restart WebappService
 
 
 
