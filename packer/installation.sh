@@ -45,6 +45,7 @@ if [ -f /opt/csye6225/webapp/.env ]; then
     # set -a # automatically export all variables
     # shellcheck disable=SC1091
     source /opt/csye6225/webapp/.env
+    cat /opt/csye6225/webapp/.env
     #set +a
     echo "Environment variables loaded:"
     echo "DB_DATABASE=$DB_NAME"
