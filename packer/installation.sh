@@ -42,10 +42,10 @@ sudo npm install mysql2
 
 if [ -f /opt/csye6225/webapp/.env ]; then
     echo "Loading environment variables from .env file..."
-    set -a # automatically export all variables
+    # set -a # automatically export all variables
     # shellcheck disable=SC1091
     source /opt/csye6225/webapp/.env
-    set +a
+    #set +a
     echo "Environment variables loaded:"
     echo "DB_DATABASE=$DB_NAME"
     echo "DB Name = $DB_DATABASE"
@@ -61,14 +61,14 @@ sudo dnf install -y mysql-server
 sudo systemctl start mysqld
 sudo systemctl enable mysqld
 
-echo "Checking if '$DB_DATABASE' database exists..."
-DB_EXISTS=$(mysql -u root -e "SHOW DATABASES LIKE '$DB_DATABASE';" | grep "$DB_DATABASE" > /dev/null; echo "$?")
-if [ "$DB_EXISTS" -eq 1 ]; then
+echo "Checking if '$DB_NAME' database exists..."
+DB_EXISTS=$(mysql -u root -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
+if [ "$DB_NAME" -eq 1 ]; then
     echo "Database does not exist. Creating now..."
-    mysql -u root -e "CREATE DATABASE $DB_DATABASE;"
-    echo "Database '$DB_DATABASE' created."
+    mysql -u root -e "CREATE DATABASE $DB_NAME;"
+    echo "Database '$DB_NAME' created."
 else
-    echo "Database '$DB_DATABASE' already exists."
+    echo "Database '$DB_NAME' already exists."
 fi
 
 
