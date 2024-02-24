@@ -8,7 +8,7 @@ sudo cp /tmp/WebappService.service /etc/systemd/system/WebappService.service
 
 echo "Running service"
 sudo systemctl daemon-reload
-#sudo systemctl enable WebappService
-#sudo systemctl start WebappService
-#sudo systemctl status WebappService
+sudo systemctl enable WebappService
+sudo systemctl start WebappService
+sudo systemctl status WebappService
 
