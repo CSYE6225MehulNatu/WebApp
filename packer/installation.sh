@@ -47,7 +47,7 @@ if [ -f /opt/csye6225/webapp/.env ]; then
     source /opt/csye6225/webapp/.env
     set +a
     echo "Environment variables loaded:"
-    echo "DB_DATABASE=$DB_DATABASE"
+    echo "DB_DATABASE=$DB_NAME"
 else
     echo ".env file not found, ensure it exists at /opt/csye6225/webapp/.env"
     exit 1
