@@ -12,3 +12,6 @@ sudo systemctl enable WebappService
 sudo systemctl start WebappService
 sudo systemctl status WebappService
 
+sudo systemctl start mysqld
+sudo systemctl enable mysqld
+

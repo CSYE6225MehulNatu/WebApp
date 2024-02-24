@@ -43,7 +43,4 @@ sudo npm install mysql2
 echo "Installing MySQL server"
 sudo dnf install -y mysql-server
 
-echo "Installing MySQL server"
-sudo systemctl start mysqld
-sudo systemctl enable mysqld
 
