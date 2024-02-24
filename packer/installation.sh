@@ -62,6 +62,8 @@ sudo dnf install -y mysql-server
 sudo systemctl start mysqld
 sudo systemctl enable mysqld
 
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+
 echo "Checking if '$DB_NAME' database exists..."
 DB_EXISTS=$(mysql -u root -e "SHOW DATABASES LIKE '$DB_NAME';" | grep "$DB_NAME" > /dev/null; echo "$?")
 if [ "$DB_NAME" -eq 1 ]; then
