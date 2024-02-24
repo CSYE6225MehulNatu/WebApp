@@ -40,6 +40,20 @@ sudo npm install sequelize
 sudo npm install mysql2
 
 
+if [ -f /opt/csye6225/webapp/.env ]; then
+    echo "Loading environment variables from .env file..."
+    set -a # automatically export all variables
+    # shellcheck disable=SC1091
+    source /opt/csye6225/webapp/.env
+    set +a
+    echo "Environment variables loaded:"
+    echo "DB_DATABASE=$DB_DATABASE"
+else
+    echo ".env file not found, ensure it exists at /opt/csye6225/webapp/.env"
+    exit 1
+fi
+
+
 echo "Installing MySQL server"
 sudo dnf install -y mysql-server
 
