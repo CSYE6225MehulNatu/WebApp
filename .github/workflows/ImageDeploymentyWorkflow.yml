@@ -54,9 +54,9 @@ jobs:
     if: success()
     runs-on: ubuntu-latest
     env:
-        DB_DATABASE: ${{ secrets.DB_DATABASE }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ vars.DB_NAME }}
+        DB_USER: ${{ vars.DB_USER }}
+        DB_PASSWORD: ${{ vars.DB_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -65,7 +65,7 @@ jobs:
       - name: Setup envirornment variables for webapp
         run: |
           touch .env
-          echo DB_NAME=${{ env.DB_DATABASE }} >> .env
+          echo DB_NAME=${{ env.DB_NAME }} >> .env
           echo DB_USER=${{ env.DB_USER }} >> .env
           echo DB_PASSWORD= >> .env
 
