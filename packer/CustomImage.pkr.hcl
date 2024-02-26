@@ -49,7 +49,7 @@ variable "ssh_username" {
 }
 
 source "googlecompute" "csye6225-webapp-custom-image" {
-  project_id              = var.project_id
+  project_id           = var.project_id
   source_image_family     = var.source_image_family
   zone                    = var.zone
   disk_size               = var.disk_size
