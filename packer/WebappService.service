@@ -2,6 +2,7 @@
 Description=CSYE 6225 App
 ConditionPathExists=/opt/csye6225/webapp/Server.js
 After=network.target
+After=google-startup-scripts.service
 
 [Service]
 Type=simple
