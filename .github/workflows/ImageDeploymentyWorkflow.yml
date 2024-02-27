@@ -61,13 +61,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Setup envirornment variables for webapp
-        run: |
-          touch .env
-          echo DB_NAME=${{ vars.DB_NAME }} >> .env
-          echo DB_USER=${{ vars.DB_USER }} >> .env
-          echo DB_PASSWORD= >> .env
+#
+#      - name: Setup envirornment variables for webapp
+#        run: |
+#          touch .env
+#          echo DB_NAME=${{ vars.DB_NAME }} >> .env
+#          echo DB_USER=${{ vars.DB_USER }} >> .env
+#          echo DB_PASSWORD= >> .env
 
       - name: Setup envirornment variables for Packer
         run: |
