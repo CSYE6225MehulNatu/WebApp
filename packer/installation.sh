@@ -38,15 +38,3 @@ echo "Installing node modules"
 sudo npm ci
 sudo npm install sequelize
 sudo npm install mysql2
-
-
-echo "Installing MySQL server"
-sudo dnf install -y mysql-server
-
-sudo systemctl start mysqld
-sudo systemctl enable mysqld
-
-
-
-
-
