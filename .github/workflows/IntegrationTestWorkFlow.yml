@@ -15,6 +15,7 @@ jobs:
             DB_DATABASE: csye_6225
             DB_USER: root
             DB_PASSWORD: root
+            DB_HOST: localhost
         
         strategy:
             matrix:
@@ -42,6 +43,7 @@ jobs:
                 echo DB_NAME=${{ env.DB_DATABASE }} >> .env
                 echo DB_USER=${{ env.DB_USER }} >> .env
                 echo DB_PASSWORD=${{ env.DB_PASSWORD }} >> .env
+                echo DB_HOST=${{ env.DB_HOST }} >> .env
                 
             - run: npm ci
             - run: npm install sequelize

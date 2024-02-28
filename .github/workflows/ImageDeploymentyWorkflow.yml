@@ -68,6 +68,7 @@ jobs:
           echo DB_NAME= >> .env
           echo DB_USER= >> .env
           echo DB_PASSWORD= >> .env
+          echo DB_HOST= >> .env
 
       - name: Setup envirornment variables for Packer
         run: |
