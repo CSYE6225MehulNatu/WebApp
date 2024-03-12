@@ -1,6 +1,5 @@
 const {UserModel} = require("../DbConfig")
 
-
 async function createUser(firstName, lastName, emailToBeSaved, password) {
     
     const userExist = await doesUserExistIfSoGetUser(emailToBeSaved);
