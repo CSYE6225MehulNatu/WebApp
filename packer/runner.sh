@@ -10,6 +10,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable WebappService
 sudo systemctl start WebappService
 
+ sudo systemctl restart google-cloud-ops-agent
 
 
 
