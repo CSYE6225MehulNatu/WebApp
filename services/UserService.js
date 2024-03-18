@@ -22,7 +22,7 @@ async function updateUser(firstName, lastName, email, password) {
     const userExist = await doesUserExistIfSoGetUser(email);
     if (userExist[0]) {
         const result = userExist[1].update({"firstname" : firstName, "lastname" : lastName, "password" : password});
-        logger.debug("Updated User successfully : " + emailToBeSaved);
+        logger.debug("Updated User successfully : " + email);
         return result;
     } else {
         //throw exception that user does not exist
