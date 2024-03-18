@@ -1,16 +1,29 @@
 const pino = require("pino");
-const fileTransport = pino.transport({
-    target: "pino/file",
-    options: {
-        destination: "/webapp/webapp.log"
-    }
-})
+require('dotenv').config();
+let tempLogger = null;
 
-const logger = pino({
+if (process.env.LOG_PATH) {
+    const fileTransport = pino.transport({
+        target: "pino/file",
+        options: {
+            destination: process.env.LOG_PATH + "/webapp.log"
+        }
+    })
+
+    tempLogger = pino({
+            timestamp: pino.stdTimeFunctions.isoTime,
+        },
+        fileTransport
+        );
+} else {
+    
+    tempLogger = pino({
         timestamp: pino.stdTimeFunctions.isoTime,
-    },
-    fileTransport
+    }
     );
+}
+
+const logger = tempLogger;
 
 
 module.exports = {

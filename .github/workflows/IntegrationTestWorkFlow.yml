@@ -16,6 +16,7 @@ jobs:
             DB_USER: root
             DB_PASSWORD: root
             DB_HOST: localhost
+            LOG_PATH: webapp.log
         
         strategy:
             matrix:
@@ -44,6 +45,7 @@ jobs:
                 echo DB_USER=${{ env.DB_USER }} >> .env
                 echo DB_PASSWORD=${{ env.DB_PASSWORD }} >> .env
                 echo DB_HOST=${{ env.DB_HOST }} >> .env
+                echo LOG_PATH=${{ env.LOG_PATH }} >> .env
                 
             - run: npm ci
             - run: npm install sequelize
