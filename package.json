@@ -208,6 +208,7 @@
     "path-to-regexp": "^0.1.7",
     "picocolors": "^1.0.0",
     "picomatch": "^2.3.1",
+    "pino": "^8.19.0",
     "pirates": "^4.0.6",
     "pkg-dir": "^4.2.0",
     "pretty-format": "^29.7.0",

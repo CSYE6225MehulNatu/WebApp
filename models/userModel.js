@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt');
-
-//import DataTypes from 'sequelize';
-
+const { logger } = require("../util/Logging");
 
   
 const User = (db, DataTypes) => {

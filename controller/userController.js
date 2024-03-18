@@ -1,4 +1,6 @@
 const userService = require("../services/UserService");
+const { logger } = require("../util/Logging");
+
 
 
 const createUser = async (req, resp, next) => {
@@ -18,7 +20,7 @@ const createUser = async (req, resp, next) => {
             resp.status(201).send(filterFields(result.toJSON()));
         });
     } catch (err) {
-        console.log("Error while creatiung a new user " + err);
+        logger.error("Error while creatiung a new user " + err);
         resp.status(500).send();
     }
 }
@@ -26,7 +28,7 @@ const createUser = async (req, resp, next) => {
 const updateUser = async (req, resp, next) => {
     //get Email from the token
     const email = req.decipheredEmail;
-    console.log("Deciphere emaiol: " + email);
+    logger.debug("Deciphere email: " + email);
     try {
         const isPresent = await userService.doesUserExist(email);
 
@@ -44,7 +46,7 @@ const updateUser = async (req, resp, next) => {
         })
 
     } catch (err) {
-        console.log("Error while updatying user " + err);
+        logger.error("Error while updatying user " + err);
         resp.status(500).send();
     }
 }

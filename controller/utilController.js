@@ -1,4 +1,6 @@
 const {db} = require("../DbConfig");
+const { logger } = require("../util/Logging");
+
 
 
 const isDbConnecting = async (req, resp, next) => {
@@ -6,14 +8,14 @@ const isDbConnecting = async (req, resp, next) => {
         db
         .authenticate()
         .then(() => {
-            console.log('Database connection successful!');
+            logger.debug('Database connection successful!');
             resp.status(200).setHeader("cache-control", "no-cache").send();
         }).catch((err) => {
-            console.error('Unable to connect to the database:', err);
+            logger.error('Unable to connect to the database:', err);
             resp.status(503).setHeader("cache-control", "no-cache").send();
         });
     } catch (error) {
-        console.error("Health check failed:", error);
+        logger.error("Health check failed:", error);
         resp.status(503).setHeader("cache-control", "no-cache").send();
     }
 }
