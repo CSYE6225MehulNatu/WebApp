@@ -2,6 +2,7 @@ const express = require("express");
 const {db, sync} = require("./DbConfig"); 
 const userRouter  = require("./routes/UserRoutes");
 const utilRouter = require("./routes/UtilRoutes");
+const { logger } = require("./util/Logging");
 
 
 const app = express();
@@ -16,7 +17,7 @@ const port = process.env.PORT || 3001;
 
 const server = app.listen(port, async() => {
     await sync();
-    console.log("Listening on port  3001....");
+    logger.info("Listening on port  3001....");
 }); 
 
 

@@ -1,4 +1,5 @@
 const {genericValidator, hasBody, hasQueryParam, isEmail} = require("../validatorHelper"); 
+const { logger } = require("../../util/Logging");
 
 
 const createUserApiValidator = async (req, res, next) => {
@@ -11,7 +12,7 @@ const createUserApiValidator = async (req, res, next) => {
         res.status(400).send();
         return;
     }
-    console.log("CREATE USER VALIDATION COMPLETED : ");
+    logger.info("CREATE USER VALIDATION COMPLETED : ");
     next();
 }
 
