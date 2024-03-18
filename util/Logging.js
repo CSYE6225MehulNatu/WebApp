@@ -6,7 +6,7 @@ if (process.env.LOG_PATH) {
     const fileTransport = pino.transport({
         target: "pino/file",
         options: {
-            destination: process.env.LOG_PATH + "/webapp.log"
+            destination: process.env.LOG_PATH
         }
     })
 
@@ -16,7 +16,7 @@ if (process.env.LOG_PATH) {
         fileTransport
         );
 } else {
-    
+
     tempLogger = pino({
         timestamp: pino.stdTimeFunctions.isoTime,
     }
