@@ -12,7 +12,7 @@ const createUserApiValidator = async (req, res, next) => {
         res.status(400).send();
         return;
     }
-    logger.info("CREATE USER VALIDATION COMPLETED : ");
+    logger.info("CREATE USER VALIDATION COMPLETED");
     next();
 }
 
