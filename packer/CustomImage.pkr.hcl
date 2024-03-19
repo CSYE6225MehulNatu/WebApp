@@ -81,6 +81,11 @@ build {
     destination = "/tmp/WebappService.service"
   }
 
+  provisioner "file" {
+    source      = "./packer/OpsAgentConfig.yaml"
+    destination = "/tmp/OpsAgentConfig.yaml"
+  }
+
 
   provisioner "shell" {
     scripts = [
