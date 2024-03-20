@@ -37,7 +37,7 @@ const authenticate = async (req, res, next) => {
         }
         req.decipheredEmail = username;
         req.userModel = fetchedUser;
-        logger.info("User successfully Authenticated:" + username);
+        logger.info("User successfully Authenticated: " + username);
         next();
     } catch (err) {
         logger.error("Error while authenticating: " + err);

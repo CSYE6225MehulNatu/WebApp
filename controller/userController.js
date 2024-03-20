@@ -12,6 +12,7 @@ const createUser = async (req, resp, next) => {
         const isPresent = await userService.doesUserExist(email);
 
         if (isPresent) {
+            logger.error("User already exists : " + email.toString());
             resp.status(400).send();
             return;
         }
@@ -55,7 +56,9 @@ const getUser = async (req, resp, next) => {
     const email = req.decipheredEmail;
     const result = await userService.doesUserExistIfSoGetUser(email);
     if (result[0]) {
-        resp.status(200).send(filterFields(result[1].toJSON()));
+        const filterFiledUser = filterFields(result[1].toJSON());
+        logger.info("User fetched for email: " + email);
+        resp.status(200).send(filterFiledUser);
         return;
     } else {
         resp.status(400).send();

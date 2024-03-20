@@ -8,7 +8,7 @@ const isDbConnecting = async (req, resp, next) => {
         db
         .authenticate()
         .then(() => {
-            logger.debug('Database connection successful!');
+            logger.info('Database connection successful!');
             resp.status(200).setHeader("cache-control", "no-cache").send();
         }).catch((err) => {
             logger.error('Unable to connect to the database:', err);
