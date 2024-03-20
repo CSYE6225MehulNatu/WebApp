@@ -9,10 +9,11 @@ const createUserApiValidator = async (req, res, next) => {
         return;
     }
     if (!isEmail(req.body["username"])) {
+        logger.error("Not a valid email : " + req.body["username"]);
         res.status(400).send();
         return;
     }
-    logger.info("CREATE USER VALIDATION COMPLETED : ");
+    logger.info("create user validation completed");
     next();
 }
 
@@ -20,6 +21,7 @@ const createUserApiValidator = async (req, res, next) => {
 const updateUserApiValidator = async (req, res, next) => {
     const requiredFields = ["first_name", "last_name", "password"];
     if (genericValidator(requiredFields, [], req) != true || hasQueryParam(req)) {
+        logger.error("Field validation failed for user updation");
         res.status(400).send();
         return;
     }
@@ -29,6 +31,7 @@ const updateUserApiValidator = async (req, res, next) => {
 
 const getUserApiValidator = async (req, res, next) => {
     if (hasBody(req) || hasQueryParam(req)) {
+        logger.error("Field validation failed for user get");
         res.status(400).send();
         return;
     }

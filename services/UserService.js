@@ -3,26 +3,27 @@ const { logger } = require("../util/Logging");
 
 
 async function createUser(firstName, lastName, emailToBeSaved, password) {
-    
+    console.log("up above");
     const userExist = await doesUserExistIfSoGetUser(emailToBeSaved);
+    
     if (!userExist[0]) {
         //console.log("In here2 + " + User);
         const newUser = await UserModel.create({"firstname" : firstName, "lastname" : lastName, "email" : emailToBeSaved, 
         "password" : password
         });
-        logger.debug("Created User successfully : " + emailToBeSaved);
+        //console.log("In here");
+        logger.info("Created User successfully : " + emailToBeSaved.toString());
         return newUser;
     } else {
-        //todo throw bad request exception
+        logger.info("User already exists : " + emailToBeSaved.toString());
     }
 }
-
 
 async function updateUser(firstName, lastName, email, password) {
     const userExist = await doesUserExistIfSoGetUser(email);
     if (userExist[0]) {
         const result = userExist[1].update({"firstname" : firstName, "lastname" : lastName, "password" : password});
-        logger.debug("Updated User successfully : " + email);
+        logger.info("Updated User successfully : " + email);
         return result;
     } else {
         //throw exception that user does not exist

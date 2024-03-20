@@ -1,3 +1,5 @@
+const { logger } = require("../util/Logging");
+
 function genericValidator(requiredParameters, optionalParameters, req) {
     const errors = {};
 
@@ -38,6 +40,7 @@ function hasBody(req) {
 
 const genericNoBodyNoParamValidator = async (req, res, next) => {
     if (hasBody(req) || hasQueryParam(req)) {
+        logger.error("Generic no body or param validation failed");
         res.status(400).send();
         return;
     }
