@@ -3,6 +3,7 @@ const {db, sync} = require("./DbConfig");
 const userRouter  = require("./routes/UserRoutes");
 const utilRouter = require("./routes/UtilRoutes");
 const { logger } = require("./util/Logging");
+const {emailVerified, emailVerificationPending, emailVerificationFailed} = require("./util/Constants")
 
 
 const app = express();

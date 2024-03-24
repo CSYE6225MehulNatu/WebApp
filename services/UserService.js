@@ -1,4 +1,4 @@
-const {UserModel} = require("../DbConfig")
+const { UserModel } = require("../DbConfig")
 const { logger } = require("../util/Logging");
 
 

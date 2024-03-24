@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
-const { User } = require("./models/userModel");
+const { User } = require("./models/UserModel");
+const { EmailVerification } = require("./models/EmailVerificationStatusModel");
 require('dotenv').config();
 
 const { logger } = require("./util/Logging");
@@ -15,6 +16,7 @@ const db = new Sequelize(
  );
 
 const UserModel = User(db, Sequelize.DataTypes);
+const EmailVModel = EmailVerification(db, Sequelize.DataTypes);
 
 
 const sync = async () => {
@@ -36,5 +38,6 @@ const sync = async () => {
 module.exports = {
   sync,
   UserModel,
-  db
+  db,
+  EmailVModel
 };

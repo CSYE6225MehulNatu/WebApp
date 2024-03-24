@@ -1,4 +1,6 @@
 const userService = require("../services/UserService");
+const emailService = require("../services/EmailService");
+const { publishMessage } = require("../services/PubService")
 const { logger } = require("../util/Logging");
 
 
@@ -20,6 +22,7 @@ const createUser = async (req, resp, next) => {
         userService.createUser(firstName, lastName, email, password).then(result => {
             resp.status(201).send(filterFields(result.toJSON()));
         });
+
     } catch (err) {
         logger.error("Error while creatiung a new user " + err);
         resp.status(500).send();
@@ -80,7 +83,7 @@ function filterFields(data) {
     }
   
     return newData;
-  }
+}
 
 
 module.exports = {
