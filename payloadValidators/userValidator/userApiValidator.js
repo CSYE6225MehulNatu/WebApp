@@ -13,6 +13,7 @@ const createUserApiValidator = async (req, res, next) => {
         res.status(400).send();
         return;
     }
+    //req.decipheredEmail = req.body["username"];
     logger.info("create user validation completed");
     next();
 }
@@ -36,6 +37,16 @@ const getUserApiValidator = async (req, res, next) => {
         return;
     }
     next();
+}
+
+const isEmailVerified = async (req, res, next) => {
+    try {
+        const email = req.decipheredEmail;
+        
+
+    } catch(error) {
+        logger.error("Error while checking if email is valid")
+    }
 }
 
 

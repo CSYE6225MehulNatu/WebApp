@@ -4,6 +4,7 @@
   "description": "Before you begin, ensure you have the following installed:",
   "main": "Server.js",
   "dependencies": {
+    "@google-cloud/pubsub": "^4.3.3",
     "abbrev": "^1.1.1",
     "accepts": "^1.3.8",
     "agent-base": "^6.0.2",
