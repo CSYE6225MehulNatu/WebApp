@@ -87,6 +87,7 @@ function filterFields(data) {
     return newData;
 }
 
+
 module.exports = {
     createUser, 
     updateUser,
