@@ -6,6 +6,7 @@ const { publishMessage } = require("./PubService");
 
 async function isEmailVerified(email) {
     if (process.env.ENV === undefined || process.env.ENV != Constants.prodEnv) {
+        logger.info("Values for not sending message" + (process.env.ENV === undefined) + " " + (process.env.ENV != Constants.prodEnv));
         return;
     }
     logger.info("checking if email is verified or not : " + email);
@@ -15,6 +16,7 @@ async function isEmailVerified(email) {
 
 async function sendEmailForVerification(email) {
     if (process.env.ENV === undefined || process.env.ENV != Constants.prodEnv) {
+        logger.info("Values for not sending message" + (process.env.ENV === undefined) + " " + (process.env.ENV != Constants.prodEnv));
         return;
     }
     logger.info("Sending mail for email verification : " + email);
@@ -22,7 +24,7 @@ async function sendEmailForVerification(email) {
 }
 
 
-module.export = {
+module.exports = {
     isEmailVerified,
     sendEmailForVerification
 }
