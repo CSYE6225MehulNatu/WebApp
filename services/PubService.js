@@ -17,6 +17,6 @@ async function publishMessage(topicNameOrId, email) {
   }
 }
 
-module.export = {
+module.exports = {
     publishMessage
 }
