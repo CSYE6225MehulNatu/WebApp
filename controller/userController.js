@@ -1,7 +1,9 @@
 const userService = require("../services/UserService");
-const { sendEmailForVerification } = require("../services/EmailService");
+const { sendEmailForVerification, isEmailVerified, saveEmailVerificationStatus, 
+    getEmailVerificationObject } = require("../services/EmailService");
 const { publishMessage } = require("../services/PubService")
 const { logger } = require("../util/Logging");
+const { emailVerificationFailed, emailVerified, emailVerificationPending } = require("../util/Constants");
 
 
 
@@ -24,6 +26,7 @@ const createUser = async (req, resp, next) => {
         });
 
         sendEmailForVerification(email);
+        //saveEmailVerificationStatus(email, "pending");
 
     } catch (err) {
         logger.error("Error while creatiung a new user " + err);
@@ -36,6 +39,13 @@ const updateUser = async (req, resp, next) => {
     const email = req.decipheredEmail;
     logger.debug("Deciphere email: " + email);
     try {
+
+        const emailVerificationDone = await isEmailVerified(email);
+        if (!emailVerificationDone) {
+            resp.status(400).send();
+            return;
+        }
+
         const isPresent = await userService.doesUserExist(email);
 
         if (!isPresent) {
@@ -59,6 +69,11 @@ const updateUser = async (req, resp, next) => {
 
 const getUser = async (req, resp, next) => {
     const email = req.decipheredEmail;
+    const emailVerificationDone = await isEmailVerified(email);
+    if (!emailVerificationDone) {
+        resp.status(400).send();
+        return;
+    }
     const result = await userService.doesUserExistIfSoGetUser(email);
     if (result[0]) {
         const filterFiledUser = filterFields(result[1].toJSON());
@@ -70,6 +85,47 @@ const getUser = async (req, resp, next) => {
         return;
     }
 }
+
+const verifyEmailForUser = async (req, resp, next) => {
+    try {
+        const currTimeMilliseconds = Date.now();
+        //const normalString = atob(req.query.code).substring(1, str.length - 1);
+
+        const emailVerificationObject = await getEmailVerificationObject(req.query.code);
+
+        if (emailVerificationObject === undefined) {
+            logger.info("No such object found for given code : " + req.query.code);
+            resp.status(400).send();
+            return;
+        }
+
+        //logger.info("No such object found for given code :" + new Date(emailVerificationObject["verification_link_creation_time"]).getTime);
+        const createdTime = emailVerificationObject["verification_link_creation_time"].getTime();
+        logger.info("value of created time : " + createdTime);
+
+        if (emailVerificationObject["status"] === emailVerificationPending) {
+            if (createdTime + 2 * 60000 >= currTimeMilliseconds) {
+                logger.info("Updating Status to verified");
+                emailVerificationObject.update({"status" : emailVerified});
+            } else {
+                logger.info("Updating Status to failed");
+                await emailVerificationObject.update({"status" : emailVerificationFailed});
+                resp.status(400).send();
+                return;
+            }
+        } else {
+            resp.status(400).send();
+        }
+
+        resp.status(200).send();
+        return;
+
+    } catch (err) {
+        logger.error("Error while verification of email link : " + err);
+        resp.status(400).send();
+    }
+}
+
 
 
 function filterFields(data) {
@@ -91,5 +147,6 @@ function filterFields(data) {
 module.exports = {
     createUser, 
     updateUser,
-    getUser
+    getUser,
+    verifyEmailForUser
 }
