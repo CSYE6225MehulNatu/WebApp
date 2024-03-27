@@ -2,8 +2,7 @@ const Constants = require("../util/Constants")
 
 
 const EmailVerification = (db, DataTypes) => {
-    const emailVerificationM = db.define('emailVerification', {
-  
+    const emailVerificationM = db.define("email_verification_status", {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -18,13 +17,14 @@ const EmailVerification = (db, DataTypes) => {
         allowNull: false,
         default: Constants.emailVerificationPending
       },
-      verificationEmailLink:  { 
+      verificationCode:  { 
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
     },
     {
-        tablename: "email_verification_status",
+        tablename: "email_verification_states",
         timestamps: true,
         createdAt: "verification_link_creation_time",
         updatedAt: "verification_link_updation_time"
