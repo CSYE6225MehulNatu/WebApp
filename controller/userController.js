@@ -1,6 +1,7 @@
 const userService = require("../services/UserService");
 const { sendEmailForVerification, isEmailVerified, saveEmailVerificationStatus, 
     getEmailVerificationObject } = require("../services/EmailService");
+
 const { publishMessage } = require("../services/PubService")
 const { logger } = require("../util/Logging");
 const { emailVerificationFailed, emailVerified, emailVerificationPending } = require("../util/Constants");
@@ -27,6 +28,7 @@ const createUser = async (req, resp, next) => {
 
         sendEmailForVerification(email);
         //saveEmailVerificationStatus(email, "pending");
+
 
     } catch (err) {
         logger.error("Error while creatiung a new user " + err);
