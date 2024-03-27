@@ -95,7 +95,7 @@ const verifyEmailForUser = async (req, resp, next) => {
 
         if (emailVerificationObject === undefined) {
             logger.info("No such object found for given code : " + req.query.code);
-            resp.status(400).send();
+            resp.status(400).send("{\"message\" : \"Not able to verify\"}");
             return;
         }
 
@@ -107,22 +107,21 @@ const verifyEmailForUser = async (req, resp, next) => {
             if (createdTime + 2 * 60000 >= currTimeMilliseconds) {
                 logger.info("Updating Status to verified");
                 emailVerificationObject.update({"status" : emailVerified});
+                resp.status(200).send("{\"message\" : \"Verified\"}");
             } else {
                 logger.info("Updating Status to failed");
                 await emailVerificationObject.update({"status" : emailVerificationFailed});
-                resp.status(400).send();
+                resp.status(400).send("{\"message\" : \"Verification time is over\"}");
                 return;
             }
         } else {
-            resp.status(400).send();
+            resp.status(400).send("{\"message\" : \"Already used link\"}");
         }
-
-        resp.status(200).send();
         return;
 
     } catch (err) {
         logger.error("Error while verification of email link : " + err);
-        resp.status(400).send();
+        resp.status(400).send("{\"message\" : \"Not able to verify\"}");
     }
 }
 
