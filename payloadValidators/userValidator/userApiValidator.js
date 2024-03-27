@@ -50,10 +50,23 @@ const isEmailVerified = async (req, res, next) => {
 }
 
 
+const checkQueryParamCode = (req, res, next) => {
+    const codeParam = req.query.code;
+    if (codeParam) {
+      logger.info("Query parameter 'code' is present:", codeParam);
+      next(); // Proceed to the next middleware
+    } else {
+      logger.error("Query parameter 'code' is not present:");
+      res.status(400).send();
+    }
+  };
+
+
 module.exports = {
     createUserApiValidator,
     updateUserApiValidator,
-    getUserApiValidator
+    getUserApiValidator,
+    checkQueryParamCode
 }
 
 
