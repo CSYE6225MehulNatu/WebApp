@@ -42,7 +42,7 @@ const updateUser = async (req, resp, next) => {
 
         const emailVerificationDone = await isEmailVerified(email);
         if (!emailVerificationDone) {
-            resp.status(400).send();
+            resp.status(403).send();
             return;
         }
 
@@ -71,7 +71,7 @@ const getUser = async (req, resp, next) => {
     const email = req.decipheredEmail;
     const emailVerificationDone = await isEmailVerified(email);
     if (!emailVerificationDone) {
-        resp.status(400).send();
+        resp.status(403).send();
         return;
     }
     const result = await userService.doesUserExistIfSoGetUser(email);
