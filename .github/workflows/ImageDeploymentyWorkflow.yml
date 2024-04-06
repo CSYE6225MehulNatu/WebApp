@@ -51,18 +51,21 @@ jobs:
       - run: npm test
 
 
-  Image_Creation:
+  image_creation:
     needs: integration-tests
     if: success()
     runs-on: ubuntu-latest
     env:
-        DB_NAME: ${{ vars.DB_NAME }}
-        DB_USER: ${{ vars.DB_USER }}
-        DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+      DB_NAME: ${{ vars.DB_NAME }}
+      DB_USER: ${{ vars.DB_USER }}
+      DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+    
+    outputs:
+      image_id: ${{steps.get-image-id}}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Creating .env file for webapp
         run: |
@@ -104,5 +107,27 @@ jobs:
       - name: Build Image
         run: |
             packer build --var-file="./packer/variables.pkvars.hcl" packer/CustomImage.pkr.hcl
+
+      - name: Get Image Id
+        id: get-image-id
+        run: |
+          artifact_id=$(cat manifest.json | jq '.builds[0].artifact_id')
+          echo "id_key::$artifact_id" >> "$GITHUB_OUTPUT"
+      
+
+  
+  template_creation:
+    needs: image_creation
+    if: success()
+    runs-on: ubuntu-latest
+    
+    env:
+      arifact_id: ${{needs.image_creation.outputs.image_id}}
+
+    steps:
+      - name: output image artifact ID
+        run: |
+            echo "$arifact_id"
+
 
      
