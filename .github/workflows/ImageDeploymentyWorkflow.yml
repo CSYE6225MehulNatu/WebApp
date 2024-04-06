@@ -112,7 +112,7 @@ jobs:
         id: get-image-id
         run: |
           artifact_id=$(cat manifest.json | jq '.builds[0].artifact_id')
-          echo "id_key::$artifact_id" >> "$GITHUB_OUTPUT"
+          echo "id_key=$artifact_id" >> $GITHUB_OUTPUT
       
 
   
