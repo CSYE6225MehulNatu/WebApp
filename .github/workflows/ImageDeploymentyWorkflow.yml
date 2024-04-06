@@ -61,7 +61,7 @@ jobs:
       DB_PASSWORD: ${{ vars.DB_PASSWORD }}
     
     outputs:
-      image_id: ${{steps.get-image-id}}
+      image_id: ${{steps.get-image-id.outputs.id_key}}
 
     steps:
       - name: Checkout code
