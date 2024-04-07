@@ -126,9 +126,16 @@ jobs:
       arifact_id: ${{needs.image_creation.outputs.image_id}}
 
     steps:
-      - name: output image artifact ID
-        run: |
-            echo "${{ env.arifact_id }}"
+    - uses: actions/checkout@v3
+
+    - name: Check if job1 output is populated
+      if: ${{ ! (${{ env.arifact_id }} == '') }}  # Check for job1's "my_output"
+      run: |
+        echo "The 'my_output' variable from job1 is populated."
+    
+    - name: output image artifact ID
+      run: |
+          echo "${{ env.arifact_id }}"
 
 
      
