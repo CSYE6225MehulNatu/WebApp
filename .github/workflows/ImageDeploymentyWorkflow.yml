@@ -111,8 +111,9 @@ jobs:
       - name: Get Image Id
         id: get-image-id
         run: |
+          cat manifest.json
           artifact_id=$(cat manifest.json | jq '.builds[0].artifact_id')
-          echo "id_key=$artifact_id" >> $GITHUB_OUTPUT
+          echo "id_key=$artifact_id" >> "$GITHUB_OUTPUT"
       
 
   
