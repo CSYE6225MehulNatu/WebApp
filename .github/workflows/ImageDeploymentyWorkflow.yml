@@ -127,7 +127,7 @@ jobs:
     steps:
       - name: output image artifact ID
         run: |
-            echo "$arifact_id"
+            echo "${{arifact_id}}"
 
 
      
