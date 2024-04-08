@@ -149,11 +149,11 @@ jobs:
       - name: Updating the startUp Script
         run: |
             cd .github/workflows/
-            sed -i 's/${dbName}/${{ secrets.CLOUD_SQL_DB_NAME }}/g' webappInstanceStartUpScript.sh
-            sed -i 's/${sqlUser}/${{ secrets.CLOUD_SQL_DB_USER }}/g' webappInstanceStartUpScript.sh
-            sed -i 's/${password}/${{ secrets.CLOUD_SQL_PASSWORD }}/g' webappInstanceStartUpScript.sh
-            sed -i 's/${host}/${{ secrets.CLOUD_SQL_HOST }}/g' webappInstanceStartUpScript.sh
-            sed -i 's/${logFilePath}/${{ vars.WEBAPP_LOG_FILE_PATH }}/g' webappInstanceStartUpScript.sh
+            sed -i 's#${dbName}#${{ secrets.CLOUD_SQL_DB_NAME }}#g' webappInstanceStartUpScript.sh
+            sed -i 's#${sqlUser}#${{ secrets.CLOUD_SQL_DB_USER }}#g' webappInstanceStartUpScript.sh
+            sed -i 's#${password}#${{ secrets.CLOUD_SQL_PASSWORD }}#g' webappInstanceStartUpScript.sh
+            sed -i 's#${host}#${{ secrets.CLOUD_SQL_HOST }}#g' webappInstanceStartUpScript.sh
+            sed -i 's#${logFilePath}#${{ vars.WEBAPP_LOG_FILE_PATH }}#g' webappInstanceStartUpScript.sh
 
       - name: Creating a new Instance Template
         run: |
