@@ -124,16 +124,50 @@ jobs:
       arifact_id: ${{needs.image_creation.outputs.image_id}}
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Check if job1 output is populated
-      if: ${{ ! (env.arifact_id == '') }}  # Check for job1's "my_output"
-      run: |
-        echo "The 'my_output' variable from job1 is populated."
+      - name: Check if job1 output is populated
+        if: ${{ ! (env.arifact_id == '') }}  # Check for job1's "my_output"
+        run: |
+          echo "The 'my_output' variable from job1 is populated."
     
-    - name: output image artifact ID
-      run: |
+      - name: output image artifact ID
+        run: |
           echo "${{ env.arifact_id }}"
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}'
+    
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+    
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info' 
+
+      - name: Updating the startUp Script
+        run: |
+            cd .github/workflows/
+            sed -i 's/${dbName}/${{ secrets.CLOUD_SQL_DB_NAME }}/g' webappInstanceStartUpScript.sh
+            sed -i 's/${sqlUser}/${{ secrets.CLOUD_SQL_DB_USER }}/g' webappInstanceStartUpScript.sh
+            sed -i 's/${password}/${{ secrets.CLOUD_SQL_PASSWORD }}/g' webappInstanceStartUpScript.sh
+            sed -i 's/${host}/${{ secrets.CLOUD_SQL_HOST }}/g' webappInstanceStartUpScript.sh
+            sed -i 's/${logFilePath}/${{ vars.WEBAPP_LOG_FILE_PATH }}/g' webappInstanceStartUpScript.sh
+
+      - name: Creating a new Instance Template
+        run: |
+          gcloud compute instance-templates create webapp2 ^
+            --instance-template-region=us-east1 ^
+            --region=us-east1 ^
+            --machine-type e2-medium ^
+            --tags webapp-template,http-server-template,allow-health-check,load-balanced-backend ^
+            --metadata=dbName=webapp,sqlUser=webapp,password=GYtJR5lRQkL8rGEy,host=10.27.0.2,logFilePath=/var/log/webapp.log ^
+            --metadata-from-file=startup-script=./webappInstanceStartUpScript.sh ^
+            --network-interface=network=mehul-vpc3,subnet=mehul-vpc3-webapp,stack-type=IPV4_ONLY ^
+            --service-account=app-instance-service-account@csye6225-mehul.iam.gserviceaccount.com ^
+            --create-disk=image=csye6225-webapp-image-1712470368,size=50GB,type=pd-balanced,auto-delete=yes,boot=yes ^
+            --scopes=logging-write,monitoring-write,cloud-platform
 
 
      
