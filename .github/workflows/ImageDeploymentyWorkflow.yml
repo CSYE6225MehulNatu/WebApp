@@ -206,8 +206,8 @@ jobs:
         
       - name: Waiting for the update to complete
         run: |
-          gcloud compute instance-groups managed wait-until ${{ vars.INSTANCE_GROUP_MANAGER }} ^
-            --version-target-reached ^
+          gcloud compute instance-groups managed wait-until ${{ vars.INSTANCE_GROUP_MANAGER }} \
+            --version-target-reached \
             --region=${{ vars.TEMPLATE_REGION }}
 
 
