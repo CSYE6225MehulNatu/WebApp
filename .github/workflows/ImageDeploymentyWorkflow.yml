@@ -165,7 +165,7 @@ jobs:
           INSTANCE_TEMPLATE="webapp-instance-template-$TIMESTAMP"
           echo "template_id=$INSTANCE_TEMPLATE" >> "$GITHUB_OUTPUT"
 
-          gcloud compute instance-templates create INSTANCE_TEMPLATE \
+          gcloud compute instance-templates create $INSTANCE_TEMPLATE \
             --instance-template-region=${{ vars.TEMPLATE_REGION }} \
             --region=${{ vars.TEMPLATE_REGION }} \
             --machine-type e2-medium \
