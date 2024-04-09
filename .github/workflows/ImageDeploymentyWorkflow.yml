@@ -210,5 +210,11 @@ jobs:
             --version-target-reached \
             --region=${{ vars.TEMPLATE_REGION }}
 
+      - name: Waiting for instance group to get stable
+        run: |
+          gcloud compute instance-groups managed wait-until ${{ vars.INSTANCE_GROUP_MANAGER }} \
+            --stable ^
+            --region=${{ vars.TEMPLATE_REGION }}
+
 
      
