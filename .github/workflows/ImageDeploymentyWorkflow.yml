@@ -161,7 +161,7 @@ jobs:
       - name: Creating a new Instance Template
         id: instance-creation
         run: |
-          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
           INSTANCE_TEMPLATE="webapp-instance-template-$TIMESTAMP"
           echo "template_id=$INSTANCE_TEMPLATE" >> "$GITHUB_OUTPUT"
 
