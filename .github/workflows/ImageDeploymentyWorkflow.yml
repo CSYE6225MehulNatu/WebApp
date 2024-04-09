@@ -162,7 +162,7 @@ jobs:
         id: instance-creation
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          INSTANCE_TEMPLATE="webapp-instance-template-$TIMESTAMP"
+          INSTANCE_TEMPLATE="instance-template-$TIMESTAMP"
           echo "template_id=$INSTANCE_TEMPLATE" >> "$GITHUB_OUTPUT"
 
           gcloud compute instance-templates create $INSTANCE_TEMPLATE \
