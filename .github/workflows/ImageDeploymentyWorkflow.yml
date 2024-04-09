@@ -122,6 +122,9 @@ jobs:
     
     env:
       arifact_id: ${{needs.image_creation.outputs.image_id}}
+    
+    outputs:
+      template_id: ${{steps.instance-creation.outputs.template_id}}
 
     steps:
       - uses: actions/checkout@v3
@@ -156,8 +159,13 @@ jobs:
             sed -i 's#${logFilePath}#${{ vars.WEBAPP_LOG_FILE_PATH }}#g' webappInstanceStartUpScript.sh
 
       - name: Creating a new Instance Template
+        id: instance-creation
         run: |
-          gcloud compute instance-templates create webapp2 \
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          INSTANCE_TEMPLATE="webapp-instance-template-$TIMESTAMP"
+          echo "template_id=$INSTANCE_TEMPLATE" >> "$GITHUB_OUTPUT"
+
+          gcloud compute instance-templates create INSTANCE_TEMPLATE \
             --instance-template-region=${{ vars.TEMPLATE_REGION }} \
             --region=${{ vars.TEMPLATE_REGION }} \
             --machine-type e2-medium \
@@ -168,6 +176,40 @@ jobs:
             --service-account=${{ vars.INSTANCE_SERVICE_ACCOUNT }} \
             --create-disk=image=${{ env.arifact_id }},size=50GB,type=pd-balanced,auto-delete=yes,boot=yes \
             --scopes=logging-write,monitoring-write,cloud-platform
+
+  instance_update:
+    needs: template_creation
+    if: success()
+    runs-on: ubuntu-latest
+              
+    env:
+      template_id: ${{needs.template_creation.outputs.template_id}}
+
+    steps:
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.PACKER_DEV_GCP_CRTEDENTIALS }}'
+  
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+  
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Starting rolling Update
+        run: |
+          gcloud compute instance-groups managed rolling-action start-update ${{ vars.INSTANCE_GROUP_MANAGER }} \
+            --version=template=projects/${{ vars.PACKER_PROJECT_ID }}/regions/${{ vars.TEMPLATE_REGION }}/instanceTemplates/${{ env.template_id }} \
+            --region=${{ vars.TEMPLATE_REGION }} \
+            --max-surge=1 \
+            --max-unavailable=0 
+        
+      - name: Waiting for the update to complete
+        run: |
+          gcloud compute instance-groups managed wait-until ${{ vars.INSTANCE_GROUP_MANAGER }} ^
+            --version-target-reached ^
+            --region=${{ vars.TEMPLATE_REGION }}
 
 
      
