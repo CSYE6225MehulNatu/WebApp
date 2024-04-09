@@ -213,7 +213,7 @@ jobs:
       - name: Waiting for instance group to get stable
         run: |
           gcloud compute instance-groups managed wait-until ${{ vars.INSTANCE_GROUP_MANAGER }} \
-            --stable ^
+            --stable \
             --region=${{ vars.TEMPLATE_REGION }}
 
 
