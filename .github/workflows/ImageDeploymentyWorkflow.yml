@@ -170,11 +170,11 @@ jobs:
             --region=${{ vars.TEMPLATE_REGION }} \
             --machine-type e2-medium \
             --tags=${{ vars.TEMPLATE_TAGS }} \
-            --metadata=dbName=webapp,sqlUser=webapp,password=GYtJR5lRQkL8rGEy,host=10.27.0.2,logFilePath=/var/log/webapp.log \
+            --metadata=enable-kms=true \
             --metadata-from-file=startup-script=./.github/workflows/webappInstanceStartUpScript.sh \
             --network-interface=network=${{ vars.VPC_NAME }},subnet=${{ vars.WEBAPP_SUBNET }},stack-type=IPV4_ONLY \
             --service-account=${{ vars.INSTANCE_SERVICE_ACCOUNT }} \
-            --create-disk=image=${{ env.arifact_id }},size=50GB,type=pd-balanced,auto-delete=yes,boot=yes \
+            --create-disk=image=${{ env.arifact_id }},size=50GB,type=pd-balanced,auto-delete=yes,boot=yes,kms-key=${{vars.KMS_INSTANCE_KEY}},kms-keyring=${{vars.KMS_KEYRING}},kms-location=${{vars.KMS_LOCATION}},kms-project=${{vars.KMS_PROJECT}} \
             --scopes=logging-write,monitoring-write,cloud-platform
 
   instance_update:
