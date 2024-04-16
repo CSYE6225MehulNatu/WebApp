@@ -35,11 +35,11 @@ afterAll(async () => {
 
 describe("Integration test for User APIs", () => {
 
-  describe("POST /v1/user", () => {
+  describe("POST /v2/user", () => {
     test("saving a user response should be status 200", async() => {
       //await sync();
       const response = await request(app)
-        .post("/v1/user")
+        .post("/v2/user")
         .send({
           first_name: "Jane",
           last_name: "Doe",
@@ -52,12 +52,12 @@ describe("Integration test for User APIs", () => {
     });
   });
 
-  describe("Get v1/user/self", () => {
+  describe("Get v2/user/self", () => {
     test("fetching a user response should be status 200", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2w=";
 
       const response = await request(app)
-      .get("/v1/user/self")
+      .get("/v2/user/self")
       .set("Authorization", "Basic " + token);
       
       expect(response.statusCode).toBe(200);
@@ -71,12 +71,12 @@ describe("Integration test for User APIs", () => {
     });
   });
 
-  describe("update v1/user/self", () => {
+  describe("update v2/user/self", () => {
     test("Updating a user, response should be status 204", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2w=";
 
       const response = await request(app)
-      .put("/v1/user/self")
+      .put("/v2/user/self")
       .set("Authorization", "Basic " + token)
       .send({
         first_name: "Peter",
@@ -88,11 +88,11 @@ describe("Integration test for User APIs", () => {
     });
   });
 
-  describe("GET updated v1/user/self", () => {
+  describe("GET updated v2/user/self", () => {
     test("fetching a user response should be status 200", async() => {
       const token = "TE9MQGdtYWlsLmNvbTpsb2xs";
       const response = await request(app)
-      .get("/v1/user/self")
+      .get("/v2/user/self")
       .set("Authorization", "Basic " + token);
       
       expect(response.statusCode).toBe(200);
