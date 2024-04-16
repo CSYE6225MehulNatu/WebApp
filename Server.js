@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/v3/user/", userRouter);
+app.use("/v8/user/", userRouter);
 app.use("/", utilRouter);
 
 const port = process.env.PORT || 3001;
